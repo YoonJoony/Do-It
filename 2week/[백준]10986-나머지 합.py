@@ -4,31 +4,25 @@ input = sys.stdin.readline
 
 N, M = map(int, input().split())
 
-loop_N = N
-
 A = list(map(int, input().split()))
-flag = 0
+D = [0] * N
+C = [0] * M
 count = 0
-i = 1
-D = [0 for _ in range(N + 1)]
 
-while flag < loop_N:
-    D[i] = D[i - 1] + A[i + flag - 1]
+D[0] = A[0]
 
-    if D[i] % M == 0:
-        print(D[i])
+for i in range(1, N):
+    D[i] = D[i-1] + A[i]
+
+for i in range(N):
+    re = D[i] % M
+    if re == 0:
         count += 1
+    C[re] += 1
 
-    if i == N:
-        flag += 1
-        i = 1
-        N -= 1
-        D = [0 for _ in range(N + 1)]
-    else:
-        i += 1
+for i in range(M):
+    if C[i] > 1:
+        count += (C[i] * (C[i]-1) // 2)
+
 
 print(count)
-
-
-
-
