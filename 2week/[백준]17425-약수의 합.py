@@ -1,26 +1,31 @@
 import sys
 
 input = sys.stdin.readline
+M = int(input())
+arr = []
+for i in range(M):
+    sum = 0
 
-# M = int(input())
-sum = 0
+    N = int(input())
 
-def cal(N):
-    global sum
+    for i in range(1, N+1):
+        arr.append(i)
 
-    if N == 0:
-        return sum
-
-    for i in range(1, N + 1):
-        if N % i == 0:
+    for i in range(N):
+        if arr[i] == 0:
             sum += i
 
     N -= 1
-    return cal(N)
 
+    print(sum)
 
-if __name__ == '__main__':
-    # for i in range(M):
-    N = int(input())
-    sum = 0
-    print(cal(N))
+# 1
+# 1 2
+# 1 2 3
+#   1 3 6
+# 1 2 3 4
+#   1 3 6 10
+#   1 3 2 2
+# 1 2 3 4 5
+#    1 3 6 10 15
+#    1 3 1
