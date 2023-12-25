@@ -19,7 +19,7 @@ for i in range(N):
     if re == 0:
         count += 1
     C[re] += 1
-
+# 1 0 1 0 0
 for i in range(M):
     if C[i] > 1:
         count += (C[i] * (C[i]-1) // 2)
