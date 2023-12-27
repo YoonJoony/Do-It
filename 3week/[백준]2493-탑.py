@@ -1,21 +1,21 @@
 import sys
 input = sys.stdin.readline
 
-top = list(map(int, input().split()))
-arr = []
-arr.extend(reversed(top))
-st = []
-count = 1
+n = int(input())  # 탑의 개수
+towers = list(map(int, input().split()))  # 각 탑의 높이
+stack = []
+result = [0] * n  # 수신 탑의 위치를 저장할 리스트
 
-for i in range(len(arr)):
-    if i < len(arr)-1 and arr[i] <= arr[i+1]:
-        for j in range(count):
-            st.append(top.index(arr[i+1]) + 1)
-            count = 1
-    else:
-        count += 1
+for i in range(n):
+    # 스택이 비어있지 않고 현재 탑이 스택의 top에 있는 탑보다 높을 때까지
+    while stack and towers[i] > towers[stack[-1]]:
+        stack.pop()
+    # 스택이 비어있지 않다면 현재 탑의 신호를 수신할 탑의 인덱스를 결과에 저장
+    if stack:
+        result[i] = stack[-1] + 1  # 인덱스는 0부터 시작하므로 +1
+    # 현재 탑을 스택에 추가
+    stack.append(i)
 
-for i in range(len(arr)-len(st)):
-    st.append(0)
+# 결과 출력
+print(' '.join(map(str, result)))
 
-print(" ".join(map(str, st)))
