@@ -20,3 +20,4 @@ while i <= N:
         i += 1
         st.append(i)
         print("+")
+
