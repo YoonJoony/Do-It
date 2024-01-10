@@ -3,23 +3,15 @@ input = sys.stdin.readline
 
 count = 0
 for _ in range(int(input())):
-    line = list(input().strip())
+    line = input().strip()
     st = []
-    i = 0
-    while True:
-        if len(line) < 2 or i == len(line)-1:
-            break
-
-        if i < len(line) -1 and line[i] == line[i+1]:
-            del line[i]
-            del line[i]
-            i = 0
+    for char in line:
+        if st and st[-1] == char:
+            st.pop()
         else:
-            i += 1
+            st.append(char)
 
-    if not line:
+    if not st:
         count += 1
 
 print(count)
-
-
