@@ -1,12 +1,12 @@
 import sys
-
+from collections import deque
 import re
 input = sys.stdin.readline
 
 for _ in range(int(input())):
     p = input().rstrip('\n')
     n = int(input())
-    num = re.findall(r'\d+', input().rstrip('\n'))
+    num = deque(re.findall(r'\d+', input().rstrip('\n')))
 
     reverse_flag = True
     error_flag = True
@@ -23,10 +23,9 @@ for _ in range(int(input())):
                 print("error")
                 break
             if reverse_flag:
-                num.remove(num[0])
+                num.popleft()
             elif not reverse_flag:
-                num.remove(num[-1])
-
+                num.pop()
     if not reverse_flag:
         num.reverse()
 
