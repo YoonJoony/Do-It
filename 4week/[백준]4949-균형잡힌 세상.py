@@ -8,10 +8,10 @@ while True:
         break
     list = "".join(c for c in query if c in "()[]")
     for val in list:
-        if st and val == ")":
+        if st and val == ")" and st[-1] != "[":
             if st[-1] == "(":
                 st.pop()
-        elif st and val == "]":
+        elif st and val == "]" and st[-1] != "(":
             if st[-1] == "[":
                 st.pop()
         else:
