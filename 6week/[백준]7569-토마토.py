@@ -1,6 +1,8 @@
 import sys
 from collections import deque
 
+sys.setrecursionlimit(10 ** 6)
+
 input = sys.stdin.readline
 
 M, N, H = map(int, input().split())
@@ -11,21 +13,23 @@ dx = [-1, 1, 0, 0, 0, 0]
 dy = [0, 0, -1, 1, 0, 0]
 dz = [0, 0, 0, 0, -1, 1]
 
+queue = deque([])
+
 cnt = 0
 asd = []
 asd_rock = True
 ripe = True  # 토마토가 전부 익은 여부
+riped = False
 
 
-def bfs(graph, x, y, z):
-    global cnt, asd, asd_rock
-    queue = deque([(x, y, z)])
-    visit_graph[x][y][z] = True
+def bfs(graph):
+    global queue, cnt, asd, asd_rock, riped
 
     while queue:
         x, y, z = queue.popleft()
+        visit_graph[x][y][z] = True
 
-        if (x, y, z) == asd:
+        if (x, y, z) == asd and riped:
             cnt += 1
             asd_rock = True
 
@@ -40,22 +44,20 @@ def bfs(graph, x, y, z):
                 queue.append((mx, my, mz))
                 graph[mx][my][mz] = 1
                 visit_graph[x][y][z] = True
-        # for i in range(H):
-        #     for val in graph[i]:
-        #         print(val)
-        # print()
+                riped = True
         if queue and asd_rock:
             asd = queue[-1]
 
         asd_rock = False
 
 
-
 for i in range(H):
     for j in range(N):
         for k in range(M):
             if graph[i][j][k] == 1 and not visit_graph[i][j][k]:
-                bfs(graph, i, j, k)
+                queue.append((i, j, k))
+
+bfs(graph)
 
 for i in range(H):
     for j in range(N):
