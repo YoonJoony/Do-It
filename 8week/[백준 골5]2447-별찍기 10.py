@@ -3,31 +3,23 @@ sys.setrecursionlimit(10 ** 6)
 input = sys.stdin.readline
 
 
-def star_ten(x, y, size, star):
-    count = 0
-    graph[x][y] = star
-
+def star_ten(x, y, size):
     if size == 1:
+        graph[x][y] = '*'
         return
 
-    for i in range(x, x + size):
-        for j in range(y, y + size):
-                new_size = size // 3
-                for k in range(3):
-                    for l in range(3):
-                        count += 1
-                        mx = x + k * new_size
-                        my = y + l * new_size
-                        if count == 5:
-                            continue
-                        else:
-                            star_ten(mx, my, new_size, '*')
-                return
+    new_size = size // 3
+    for i in range(3):
+        for j in range(3):
+            if i == 1 and j == 1:
+                continue
+            star_ten(x + i * new_size, y + j * new_size, new_size)
 
 
 n = int(input())
 graph = [[" " for _ in range(n)] for _ in range(n)]
-star_ten(0, 0, n, '*')
+
+star_ten(0, 0, n)
 for i in range(n):
     for j in range(n):
         print(graph[i][j], end="")
