@@ -1,18 +1,14 @@
-N, M = map(int, input().split())
-
-visited = [False] * (N + 1)
-result = []
-
 def dfs(start, depth):
     if depth == M:
-        print(' '.join(map(str, result)))
+        print(*result)
         return
-    for i in range(start, N + 1):
-        if not visited[i]:
-            visited[i] = True
-            result.append(i)
-            dfs(i + 1, depth + 1)
-            visited[i] = False
-            result.pop()
 
+    for j in range(start, N + 1):
+        result.append(j)
+        dfs(j + 1, depth + 1)
+        result.pop()
+
+
+N, M = map(int, input().split())
+result = []
 dfs(1, 0)
