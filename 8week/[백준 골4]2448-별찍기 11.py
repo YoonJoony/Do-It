@@ -1,14 +1,25 @@
-def draw_stars(n):
-    if n == 3:
-        return ['  *  ', ' * * ', '*****']
-    x = draw_stars(n // 2)
-    stars = []
-    for star in x:
-        stars.append(' ' * (n // 2) + star + ' ' * (n // 2))
-    for star in x:
-        stars.append(star + ' ' + star)
-    return stars
+import sys
+
+input = sys.stdin.readline
+
+
+def paper_11(size):
+    if size == 3:
+        L = []
+        L.append(" " * 2 + "*" + " " * 2)
+        L.append(" " + "* *" + " ")
+        L.append("*" * 5)
+        return L
+
+    Stars = paper_11(size // 2)
+    L = []
+
+    for S in Stars:
+        L.append(" " * (size // 2) + S + " " * (size // 2))
+    for S in Stars:
+        L.append(S + " " + S)
+    return L
 
 
 n = int(input())
-print('\n'.join(draw_stars(n)))
+print("\n".join(paper_11(n)))
