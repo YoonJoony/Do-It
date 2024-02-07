@@ -3,7 +3,7 @@
 # 최소 두개의 모음
 # 암호는 사전순
 
-# 모음은 1 ~ (l - 2) 개 까지만 존재 가능
+# 모음은 1 ~ (l - 2)개 까지만 존재 가능
 # 자음은 2 ~ (l -1)개 까지만 존재 가능
 import sys
 input = sys.stdin.readline
@@ -12,11 +12,11 @@ input = sys.stdin.readline
 def dfs(n, start):
     global cnt, result
     if n == L:
-        for val in vowel:  # 모음이 1개 이상 혹은 L-2 만큼만 들어가도 됨
+        for val in vowel:
             if result.count(val):
                 cnt += 1
 
-        if 0 < cnt <= (L - 2):
+        if 0 < cnt <= (L - 2): # 모음이 1개 이상 혹은 L-2 만큼만 들어가도 됨
             print(''.join(result))
         cnt = 0
         return
