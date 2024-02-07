@@ -1,9 +1,24 @@
 def dfs(start):
     global result, cnt
     P = 0
-    flag = 0
+    flag = P + 1
     while P < N:
-        result = arr[P] + arr[:flag]
+        if flag >= N:
+            P += 1
+            flag = P + 1
+        if P == N:
+            return
+        if arr[P] == S:
+            cnt += 1
+
+        result = arr[P]
+        for i in range(flag, N):
+            result = result + arr[i]
+            if result == S:
+                cnt += 1
+
+        flag += 1
+        result = 0
 
 
 N, S = map(int, input().split())
