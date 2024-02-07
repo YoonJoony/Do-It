@@ -1,30 +1,19 @@
-def dfs(start):
-    global result, cnt
-    P = 0
-    flag = P + 1
-    while P < N:
-        if flag >= N:
-            P += 1
-            flag = P + 1
-        if P == N:
-            return
-        if arr[P] == S:
-            cnt += 1
+def dfs(n, sm, cnt):
+    global ans
+    # 종료조건(n에 관련) + 정답관련 처리
+    if n == N:
+        if sm == S and cnt > 0:  # 하나라도 포함된 조합일 경우
+            ans += 1
+        return
 
-        result = arr[P]
-        for i in range(flag, N):
-            result = result + arr[i]
-            if result == S:
-                cnt += 1
-
-        flag += 1
-        result = 0
+    # 하부함수 호출
+    dfs(n + 1, sm + lst[n], cnt + 1)  # 포함하는 경우
+    dfs(n + 1, sm, cnt)
+    # 포함하지 않는 경우
 
 
 N, S = map(int, input().split())
-arr = list(map(int, input().split()))
-visited = [False for _ in range(N)]
-result = 0
-cnt = 0
-dfs(0)
-print(cnt)
+lst = list(map(int, input().split()))
+ans = 0
+dfs(0, 0, 0)
+print(ans)
