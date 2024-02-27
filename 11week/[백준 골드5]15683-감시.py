@@ -1,15 +1,7 @@
 import itertools
-from itertools import combinations
 from collections import deque
-
-# 1감은 4번, 2감은 2번, 3, 4감은 4번, 5감은 1번 감시할 수 있는 경우의 수가 존재.
-
 N, M = map(int, input().split())
-
 graph = [list(map(int, input().split())) for _ in range(N)]
-
-# 감시 카메라 범위 좌표
-lst = [0] * 6
 
 dx1 = [[1], [0], [-1], [0]]
 dy1 = [[0], [1], [0], [-1]]
@@ -25,17 +17,19 @@ dy4 = [[-1, 0, 1], [0, 1, 0], [-1, 0, 1], [0, -1, 0]]
 
 dx5 = [[1, 0, -1, 0]]
 dy5 = [[0, 1, 0, -1]]
-
-# 모든 감시 카메라 범위 리스트
+# 위 모든 감시 카메라 범위 리스트
 all_dx = [0, dx1, dx2, dx3, dx4, dx5]
 all_dy = [0, dy1, dy2, dy3, dy4, dy5]
 
 # 감시 카메라 조합 배열
 products_dx = []
 products_dy = []
+# 감시 카메라 범위 좌표
+lst = [0] * 6
+result = float('inf')  # 결과 저장할 변수
 
+# 감시 카메라 번호마다 개수 저장.
 camera_q = deque([[] for _ in range(6)])
-
 for i in range(N):
     for j in range(M):
         if 0 < graph[i][j] < 6:
@@ -55,59 +49,43 @@ def products_camera(l):
     products_dy = list(itertools.product(*products_dy))
 
 
+# 감시 범위를 확장 (x, y) : 현재 카메라 위치, (dx, dy) : 확장될 감시 카메라 방향, g : 그래프
+def expand_watch_area(x, y, dx, dy, g):
+    q = deque([(x + dx, y + dy)]) # 카메라 방향 으로 한 칸 이동한 좌표
+    while q:
+        x, y = q.popleft()
+        if 0 <= x < N and 0 <= y < M and g[x][y] != 6:
+            g[x][y] = '#'
+            q.append((x + dx, y + dy))
+
+
 def bfs(g):
+    global result
+    # 감시 카메라 조합 개수 만큼 반복
     for l in range(len(products_dx)):
+        graph2 = [arr[:] for arr in g]  # 조합마다 그래프 원상복구
+        flag = 0
         for i in range(1, 6):
             if camera_q[i]:
                 for j, val in enumerate(camera_q[i]):
-                    x = val[0]
-                    y = val[1]
-
-                    if i == 2:
-
-                        mx1 = x + products_dx[l][j][0]
-                        my1 = y + products_dy[l][j][0]
-
-                        mx2 = x + products_dx[l][j][1]
-                        my2 = y + products_dy[l][j][1]
-                        print(mx1, my1)
-                        print(mx2, my2)
-
-
-                        if mx1 == mx2:
-                            q1 = deque([(mx1, my1)])
-                            q2 = deque([(mx2, my2)])
-
-                            while q1 or q2:
-                                v1 = q1.popleft()
-                                v2 = q2.popleft()
-
-                                x1, x2= v1[0], v2[0]
-                                y1, y2 = v1[1], v2[1]
-
-                                if 0 <= x1 < N and 0 <= y1 < M or graph[x1][y1] == 0:
-                                    graph[x1][y1] = "#"
-                                    q1.append(x1, y1)
-
-
-
-                        elif my2 == my2:
-
-
-
-                    # elif i == 5:
-                    #     mx = []
-                    #     my = []
-                    #     for k in range(4):
-                    #         mx.append([x + products_dx[5][k]])
-                    #         my.append([y + products_dy[5][k]])
-                    #     print(mx)
-                    #     print(my)
-
-
+                    x, y = val
+                    if i == 1: # 1번 카메라인 경우 한 방향으로만 감시됨
+                        expand_watch_area(x, y, products_dx[l][flag][0], products_dy[l][flag][0], graph2)
+                    elif i == 2 or i == 3 or i == 4: # (2번, 3번)  카메라인 경우 두 방향으로만 감시됨
+                        expand_watch_area(x, y, products_dx[l][flag][0], products_dy[l][flag][0], graph2)
+                        expand_watch_area(x, y, products_dx[l][flag][1], products_dy[l][flag][1], graph2)
+                        if i == 4:  # 3번 카메라인 경우 세 방향으로만 감시됨
+                            expand_watch_area(x, y, products_dx[l][flag][2], products_dy[l][flag][2], graph2)
+                    elif i == 5:  # 4번 카메라인 경우 네 방향으로만 감시됨 -> for 문
+                        for _ in range(4):
+                            expand_watch_area(x, y, dx5[0][_], dy5[0][_], graph2)
+                    flag += 1
+        cnt = 0
+        for val in graph2:  # 결과 저장
+            cnt += val.count(0)
+        result = min(result, cnt)
 
 
 products_camera(lst)
 bfs(graph)
-print(products_dx[0])
-print(camera_q)
+print(result)
