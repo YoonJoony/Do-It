@@ -2,7 +2,6 @@ import sys
 
 input = sys.stdin.readline
 
-
 def dfs(n):
     if n == M:
         print(*result)
