@@ -1,6 +1,6 @@
 calendar = {"월": [], "화": [], "수": [], "목": [], "금": []}
 cnt = 0
-while cnt < 8:
+while cnt < 9: # (전체 인원 - 1)
     cnt += 1
     input_name = input()
     if input_name[0:3] == "강유림":

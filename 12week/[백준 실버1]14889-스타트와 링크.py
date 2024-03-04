@@ -42,4 +42,8 @@ for i in range(len(teamA)):
     if result > (teamA_S - abs(teamB_S)) >= 0:
         result = teamA_S - abs(teamB_S)
 
+    if result > (teamB_S - abs(teamA_S)) >= 0:
+        result = teamB_S - abs(teamA_S)
+
+
 print(result)
