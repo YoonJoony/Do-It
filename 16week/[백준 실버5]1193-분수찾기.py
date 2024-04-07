@@ -8,7 +8,7 @@
 X = int(input())
 
 left, right = 1, 1
-flag = 1 #  1일 경우 오른쪽만 증가 시킨 것, -1일 경우 왼쪽만 증가 시킨 것
+flag = 1 # 1일 경우 오른쪽만 증가 시킨 것, -1일 경우 왼쪽만 증가 시킨 것
 cnt = 1
 while cnt < X:
     if flag == 1:
