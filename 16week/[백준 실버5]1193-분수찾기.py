@@ -7,26 +7,22 @@
 
 X = int(input())
 
-left, right = 1, 1
-flag = 1 # 1일 경우 오른쪽만 증가 시킨 것, -1일 경우 왼쪽만 증가 시킨 것
-cnt = 1
-while cnt < X:
-    if flag == 1:
-        flag *= -1
-        right += 1
-        cnt += 1
-        while right > 1 and cnt < X:
-            left += 1
-            right -= 1
-            cnt += 1
-    elif flag == -1:
-        flag *= -1
-        left += 1
-        cnt += 1
-        while left > 1 and cnt < X:
-            left -= 1
-            right += 1
-            cnt += 1
+line = 0
+max_num = 0
+while X > max_num:
+    line += 1
+    max_num += line
 
+gap = max_num - X
+if line % 2 == 0:
+    numerator = line - gap
+    denominator = gap + 1
+else:  # 대각선 총 개수와 X 차이가 0일때 홀수 대각선일 경우.
+    # 홀수 대각선의 분자는 점점 감소함으로 차이가 0이 난다는 것은, 즉 분자는 1이다.
+    # 홀수 대각선의 분모는 점점 늘어남으로 line(나올 수 있는 최대 수) - 차이 따라서,
+    # 홀수일 경우는 [분자 -> 차이 + 1, 분모 -> line - 차이]
+    # 짝수는 반대로 수행.
+    numerator = gap + 1
+    denominator = line - gap
 
-print(f"{left}/{right}")
+print(f"{numerator}/{denominator}")
