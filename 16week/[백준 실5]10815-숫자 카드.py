@@ -9,7 +9,7 @@ targetArr = list(map(int, input().split()))
 
 def binary_search(lst, target, start, end):
     global flag
-    MID = (start + end + 1) // 2
+    MID = (start + end) // 2
     if start > end:
         return
 
@@ -24,6 +24,5 @@ def binary_search(lst, target, start, end):
 
 for i, val in enumerate(targetArr):
     flag = 0
-    binary_search(arr, val, 0, N-1)
-    targetArr[i] = flag
+    binary_search(arr, val, 0, N)
     print(flag, end=" ")
