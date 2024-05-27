@@ -13,23 +13,19 @@ while True:
     lst[f1].append(f2)
     lst[f2].append(f1)
 
-for i in range(1, N + 1):
+for i in range(1, N + 1):  # 1 ~ N번 사람까지 각 사람마다 자신을 제외한 다른 사람들의 관계 점수를 계산
     visited = [0] * (N + 1)
     visited[i] = 1
-    queue = deque([(i, lst[i])])  # (탐색 현 위치, [탐색할 위치의 노드들])
+    queue = deque([i])  # (탐색 현 위치, [탐색할 위치의 노드들])
     while queue:
-        tp = queue.popleft()
-        here = tp[0]  # 탐색 현 위치
-        v = tp[1]  # 탐색할 위치의 노드들
-        for val in v:
+        x = queue.popleft()
+        for val in lst[x]:
             if not visited[val]:
-                graph[i][val] = graph[i][here] + 1  # 탐색 한 위치 가중치는 => 현 위치의 노드 가중치 + 1
-                queue.append((val, lst[val]))
+                graph[i][val] = graph[i][x] + 1  # 탐색 한 위치 가중치는 => 현 위치의 노드 가중치 + 1
+                queue.append(val)
                 visited[val] = 1
     weight_lst.append(max(graph[i]))
 
-# for val in graph:
-#     print(val)
 score = min(weight_lst)  # 점수들 중 최소 점수
 
 for i in range(N):
